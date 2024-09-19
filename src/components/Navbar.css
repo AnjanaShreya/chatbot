@@ -61,7 +61,6 @@ nav .vertical-menu-logo .open-menu-btn hr{
 }
 
 .dropdown-toggle:hover{ 
-  /* background-color: #1a83ff; */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); 
   border-bottom: 2px solid rgba(255, 255, 255, 0.6); 
   border-right: 2px solid rgba(255, 255, 255, 0.6); 
@@ -232,7 +231,6 @@ nav li#user-info > span:after{
   cursor: pointer;
 }
 
-/* Dropdown styles */
 .dropdown-toggle {
   background: none;
   color: white;
@@ -246,7 +244,6 @@ nav li#user-info > span:after{
 
 .dropdown-menu {
   list-style: none;
-  /* padding: 10px; */
   margin: 10px 30px;
   border: white 2px solid;
   border-radius: 10px;
@@ -264,7 +261,6 @@ nav li#user-info > span:after{
   background: #1a83ff;
 }
 
-/* Range slider */
 .range-slider {
   width: 100%;
   margin-top: 10px;
@@ -277,7 +273,7 @@ nav li#user-info > span:after{
 
 /* ======================================================= */
 
-.create-chat-btn {
+/* .create-chat-btn {
   background: none;
   color: white;
   font-size: large;
@@ -299,9 +295,8 @@ nav li#user-info > span:after{
 .chat-history-container {
   height: 320px;
   margin-top: 10px;
-  /* border: red 2px solid; */
   overflow-y: scroll;
-}
+} */
 
 
 /* Add styling for the New Chats section */
@@ -316,7 +311,6 @@ nav li#user-info > span:after{
 
 ::-webkit-scrollbar-thumb {
   background: #060b26;
-  /* background: transparent; */
   border-radius: 10px;
 }
 
@@ -326,4 +320,33 @@ nav li#user-info > span:after{
 
 .hover-style:hover {
   background: #1a83ff;
+}
+
+/* ==================================================================== */
+
+.chat-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  height: 235px;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.chat-list li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: white 1px solid;
+  border-right: white 1px solid;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.chat-list li.active-chat {
+  background-color: #1a83ff;
+  font-weight: bold;
+}
+
+.chat-list li:hover {
+  background-color: #1a83ff;
 }

@@ -7,29 +7,24 @@ const Chatbot = ({ currentChatId, chatHistory }) => {
   const [file, setFile] = useState(null);
   const [voiceMessage, setVoiceMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const chatEndRef = useRef(null); // Reference for auto-scrolling
+  const chatEndRef = useRef(null);
 
-  // Handle text input change
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
 
-  // Handle file selection
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  // Handle voice message (for demo, we simulate voice input as text)
   const handleVoiceInput = () => {
     setVoiceMessage('Simulated voice message');
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (userInput.trim() || file || voiceMessage) {
       const newMessages = [...messages];
-      // Add user message
       if (userInput.trim()) {
         newMessages.push({ type: 'user', content: userInput });
       }
@@ -39,7 +34,6 @@ const Chatbot = ({ currentChatId, chatHistory }) => {
       if (voiceMessage) {
         newMessages.push({ type: 'user', content: voiceMessage });
       }
-      // Add processing message
       newMessages.push({ type: 'bot', content: 'Processing.....' });
       setMessages(newMessages);
       setUserInput('');
@@ -48,16 +42,15 @@ const Chatbot = ({ currentChatId, chatHistory }) => {
     }
   };
 
-  // Update messages based on current chat
   useEffect(() => {
     if (currentChatId) {
-      // Find chat messages from chatHistory if needed
-      // For now, we'll reset messages
-      setMessages([]);
+      const chat = chatHistory.find(chat => chat.id === currentChatId);
+      if (chat) {
+        setMessages(chat.messages || []);
+      }
     }
   }, [currentChatId, chatHistory]);
 
-  // Auto-scroll to the bottom of chat messages
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -83,7 +76,6 @@ const Chatbot = ({ currentChatId, chatHistory }) => {
             )}
           </div>
         ))}
-        {/* Reference element for auto-scrolling */}
         <div ref={chatEndRef} />
       </div>
       <form className="chat-input" onSubmit={handleSubmit}>
