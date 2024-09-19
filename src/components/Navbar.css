@@ -1,0 +1,329 @@
+body {
+  margin: 0; 
+  background: #060b26; 
+  font-family: Arial; 
+  color: white;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  max-width: 300px;
+  bottom: 0; top: 0;
+  display: block;
+  min-height: 300px;
+  height: 100%;
+  color: white;
+  opacity: 0.8;
+  transition: all 300ms;
+  -moz-transition: all 300ms;
+  -webkit-transition: all 300ms;
+}
+
+nav .vertical-menu hr{
+  opacity: 0.1; 
+  border-width: 0.5px;
+}
+
+nav ul{
+  width: 90%;
+  padding-inline-start: 0; 
+  margin: 10px; 
+  height: calc(100% - 20px); 
+}
+
+nav .vertical-menu-logo{
+  padding: 20px; 
+  font-size: 1.3em; 
+  position: relative
+}
+
+nav .vertical-menu-logo .open-menu-btn{
+  width: 30px; 
+  height: max-content; 
+  position: absolute; 
+  display: block; 
+  right: 20px; top: 0; 
+  bottom: 0; 
+  margin: auto; 
+  cursor: pointer;
+}
+
+nav .vertical-menu-logo .open-menu-btn hr{
+  margin: 5px 0
+}
+
+.dropdown-toggle {
+  padding: 10px 10px; 
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.dropdown-toggle:hover{ 
+  /* background-color: #1a83ff; */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); 
+  border-bottom: 2px solid rgba(255, 255, 255, 0.6); 
+  border-right: 2px solid rgba(255, 255, 255, 0.6); 
+  transition: all 0.3s ease-in-out; 
+}
+
+nav li#user-info{
+  position: absolute; 
+  bottom: 0; 
+  top: 90%;
+  width: 80%;
+}
+
+nav li#user-info > span{
+  display: block; 
+  float: right; 
+  font-size: 0.9em; 
+  position: relative; 
+  opacity: 0.6;
+}
+
+nav li#user-info > span:after{
+  content: '';
+  width: 12px;
+  height: 12px;
+  display: block;
+  position: absolute;
+  background: green;
+  left: -20px; 
+  top: -10px; 
+  bottom: 0;
+  margin: auto;
+  border-radius: 50%;
+} 
+
+.content-wrapper{
+  width: calc(100% - 300px);
+  height: 100%;
+  position: fixed;
+  background: #fff;
+  /* background: white; */
+  left: 300px;
+  margin: 0;
+  /* padding: 20px; */
+}
+
+.closed-menu .content-wrapper{
+  width: 99%;
+  left: 50px;
+}
+
+.content-wrapper{
+  transition: all 300ms;
+}
+
+.vertical-menu-wrapper .vertical-menu-logo div{
+  transition: all 100ms;
+}
+
+.closed-menu .vertical-menu-wrapper .vertical-menu-logo div{
+  margin-left: -100px;
+}
+
+.vertical-menu-wrapper .vertical-menu-logo .open-menu-btn{
+  transition: all 300ms;
+}
+
+.closed-menu .vertical-menu-wrapper .vertical-menu-logo .open-menu-btn{
+  left: 7px;
+  right: 100%;
+}
+
+.closed-menu .vertical-menu-wrapper ul,.closed-menu .vertical-menu-wrapper hr{
+  margin-left: -300px;
+}
+
+.vertical-menu-wrapper ul, .vertical-menu-wrapper hr{
+  transition: all 100ms;
+}
+
+.content{
+  width: 98%;
+  min-height: 99%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* ================================================ */
+
+/* Navbar.css */
+.range-slider-section {
+  /* margin: 20px 0; */
+  margin-top: 20px;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+.range-slider-section label {
+  display: block;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.range-slider {
+  /* -webkit-appearance: none; */
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity .15s ease-in-out;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  /* background: #4CAF50; */
+  background: #1a83ff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  /* background: #4CAF50; */
+  background: #1a83ff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.range-slider span {
+  display: block;
+  margin-top: 5px;
+  color: #fff;
+}
+
+/* ================================================================== */
+
+/* General styles for the body and menu */
+.closed-menu {
+  width: 60px;
+}
+
+.vertical-menu-logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.open-menu-btn {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.vertical-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.vertical-menu li {
+  padding: 15px;
+  cursor: pointer;
+}
+
+/* Dropdown styles */
+.dropdown-toggle {
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-menu {
+  list-style: none;
+  /* padding: 10px; */
+  margin: 10px 30px;
+  border: white 2px solid;
+  border-radius: 10px;
+}
+
+.dropdown-menu > li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li:hover {
+  background-color: #767781;
+  border-radius: 10px;
+  background: #1a83ff;
+}
+
+/* Range slider */
+.range-slider {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.content-wrapper {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* ======================================================= */
+
+.create-chat-btn {
+  background: none;
+  color: white;
+  font-size: large;
+  text-align: center;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+  border-radius: 8px;
+  height: 40px;
+}
+
+.chat-history-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+  border-radius: 8px;
+}
+
+.chat-history-container {
+  height: 320px;
+  margin-top: 10px;
+  /* border: red 2px solid; */
+  overflow-y: scroll;
+}
+
+
+/* Add styling for the New Chats section */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #060b26;
+  /* background: transparent; */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+}
+
+.hover-style:hover {
+  background: #1a83ff;
+}
