@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css'; 
 import Chatbot from './Chatbot';
 import { FaSignOutAlt } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Navbar = () => {
   const [isMenuClosed, setIsMenuClosed] = useState(false);
