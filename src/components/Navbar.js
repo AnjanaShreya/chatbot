@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isMenuClosed, setIsMenuClosed] = useState(false);
   const [rangeValue, setRangeValue] = useState(0); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
-  const [selectedModel, setSelectedModel] = useState(''); 
+  const [selectedModel, setSelectedModel] = useState('Model 4.0');  // Default model is "Model 4.0"
   const [chatHistory, setChatHistory] = useState([]);
   const [currentChatId, setCurrentChatId] = useState(null);
   const [editingChatId, setEditingChatId] = useState(null);
@@ -30,6 +30,24 @@ const Navbar = () => {
   const handleModelClick = (model) => {
     setSelectedModel(model);
     setIsDropdownOpen(false); 
+
+    // Add a system message to indicate the selected model
+    if (currentChatId) {
+      const updatedChatHistory = chatHistory.map(chat => {
+        if (chat.id === currentChatId) {
+          return {
+            ...chat,
+            messages: [
+              ...chat.messages,
+              { type: 'system', content: `You are now using ${model}` }
+            ]
+          };
+        }
+        return chat;
+      });
+
+      setChatHistory(updatedChatHistory);
+    }
   };
 
   const handleLogout = () => {
@@ -40,10 +58,17 @@ const Navbar = () => {
 
   const handleNewChat = () => {
     const newChatId = chatHistory.length ? chatHistory[chatHistory.length - 1].id + 1 : 1;
-    const newChat = { id: newChatId, name: `Chat ${newChatId}`, messages: [] };
+    const defaultModel = 'Model 4.0';
+    const newChat = {
+      id: newChatId,
+      name: `Chat ${newChatId}`,
+      messages: [{ type: 'system', content: `You are now using ${defaultModel}` }] // Add default model message
+    };
     setChatHistory([...chatHistory, newChat]);
     setCurrentChatId(newChatId); 
+    setSelectedModel(defaultModel); // Set the selected model to default
   };
+  
 
   const handleChatSelect = (id) => {
     setCurrentChatId(id);
@@ -72,7 +97,7 @@ const Navbar = () => {
   useEffect(() => {
     if (chatHistory.length === 0) {
       // Automatically add "Chat 1" if no chats exist
-      const initialChat = { id: 1, name: 'Chat 1', messages: [] };
+      const initialChat = { id: 1, name: 'Chat 1', messages: [{ type: 'system', content: 'You are now using Model 4.0' }] };
       setChatHistory([initialChat]);
       setCurrentChatId(1); // Set "Chat 1" as the current chat
     } else if (!currentChatId) {
@@ -202,7 +227,6 @@ const Navbar = () => {
       </nav>
       <div className="content-wrapper">
         <div className="content">
-          {/* <Chatbot currentChatId={currentChatId} chatHistory={chatHistory} /> */}
           <Chatbot currentChatId={currentChatId} chatHistory={chatHistory} setChatHistory={setChatHistory} />
         </div>
       </div>

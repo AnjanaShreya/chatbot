@@ -68,7 +68,7 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
 
   return (
     <div className="chatbot-page">
-      <div className="chat-display">
+      {/* <div className="chat-display">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.type}`}>
             {msg.type === 'user' && (
@@ -88,7 +88,34 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
           </div>
         ))}
         <div ref={chatEndRef} />
-      </div>
+      </div> */}
+      <div className="chat-display">
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.type}`}>
+            {msg.type === 'user' && (
+              <div className="user-message">
+                {msg.file ? (
+                  <a href={msg.content} download={msg.fileName}>Download File</a>
+                ) : (
+                  <p>{msg.content}</p>
+                )}
+              </div>
+            )}
+            {msg.type === 'bot' && (
+              <div className="bot-message">
+                <p>{msg.content}</p>
+              </div>
+            )}
+            {msg.type === 'system' && (
+              <div className="system-message">
+                <p>{msg.content}</p>
+              </div>
+            )}
+          </div>
+  ))}
+  <div ref={chatEndRef} />
+</div>
+
       <form className="chat-input" onSubmit={handleSubmit}>
         <div className="input-wrapper">
           <FaPaperclip className="icon" />
