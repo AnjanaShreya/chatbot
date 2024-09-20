@@ -68,10 +68,15 @@ const Navbar = () => {
     ));
     setEditingChatId(null);
   };
-
+  
   useEffect(() => {
-    if (!currentChatId && chatHistory.length > 0) {
-      setCurrentChatId(chatHistory[0].id);
+    if (chatHistory.length === 0) {
+      // Automatically add "Chat 1" if no chats exist
+      const initialChat = { id: 1, name: 'Chat 1', messages: [] };
+      setChatHistory([initialChat]);
+      setCurrentChatId(1); // Set "Chat 1" as the current chat
+    } else if (!currentChatId) {
+      setCurrentChatId(chatHistory[0].id); // Set the first chat as current if one exists
     }
   }, [chatHistory, currentChatId]);
 
