@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { FaMicrophone, FaPaperclip } from 'react-icons/fa';
+import React, { useState, useRef, useEffect } from 'react'; // Import the necessary React hooks
+import { FaMicrophone, FaPaperclip } from 'react-icons/fa';  // Import the required icons
 import './chatbot.css';
 
-const Chatbot = ({ currentChatId, chatHistory }) => {
+
+const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
   const [userInput, setUserInput] = useState('');
   const [file, setFile] = useState(null);
   const [voiceMessage, setVoiceMessage] = useState('');
@@ -35,10 +36,20 @@ const Chatbot = ({ currentChatId, chatHistory }) => {
         newMessages.push({ type: 'user', content: voiceMessage });
       }
       newMessages.push({ type: 'bot', content: 'Processing.....' });
+
       setMessages(newMessages);
       setUserInput('');
       setFile(null);
       setVoiceMessage('');
+
+      // Update chat history with new messages for the current chat
+      setChatHistory(prevChatHistory => 
+        prevChatHistory.map(chat => 
+          chat.id === currentChatId 
+          ? { ...chat, messages: newMessages }
+          : chat
+        )
+      );
     }
   };
 

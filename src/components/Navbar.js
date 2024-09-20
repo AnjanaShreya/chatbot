@@ -197,7 +197,8 @@ const Navbar = () => {
       </nav>
       <div className="content-wrapper">
         <div className="content">
-          <Chatbot currentChatId={currentChatId} chatHistory={chatHistory} />
+          {/* <Chatbot currentChatId={currentChatId} chatHistory={chatHistory} /> */}
+          <Chatbot currentChatId={currentChatId} chatHistory={chatHistory} setChatHistory={setChatHistory} />
         </div>
       </div>
     </div>
