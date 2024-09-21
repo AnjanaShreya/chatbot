@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isMenuClosed, setIsMenuClosed] = useState(false);
   const [rangeValue, setRangeValue] = useState(0); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
-  const [selectedModel, setSelectedModel] = useState('Model 4.0');  // Default model is "Model 4.0"
+  const [selectedModel, setSelectedModel] = useState('Model 4.0');  
   const [chatHistory, setChatHistory] = useState([]);
   const [currentChatId, setCurrentChatId] = useState(null);
   const [editingChatId, setEditingChatId] = useState(null);
@@ -62,11 +62,11 @@ const Navbar = () => {
     const newChat = {
       id: newChatId,
       name: `Chat ${newChatId}`,
-      messages: [{ type: 'system', content: `You are now using ${defaultModel}` }] // Add default model message
+      messages: [{ type: 'system', content: `You are now using ${defaultModel}` }] 
     };
     setChatHistory([...chatHistory, newChat]);
     setCurrentChatId(newChatId); 
-    setSelectedModel(defaultModel); // Set the selected model to default
+    setSelectedModel(defaultModel); 
   };
   
 
@@ -101,7 +101,7 @@ const Navbar = () => {
       setChatHistory([initialChat]);
       setCurrentChatId(1); // Set "Chat 1" as the current chat
     } else if (!currentChatId) {
-      setCurrentChatId(chatHistory[0].id); // Set the first chat as current if one exists
+      setCurrentChatId(chatHistory[0].id); 
     }
   }, [chatHistory, currentChatId]);
 

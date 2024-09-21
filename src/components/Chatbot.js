@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'; // Import the necessary React hooks
-import { FaMicrophone, FaPaperclip } from 'react-icons/fa';  // Import the required icons
+import React, { useState, useRef, useEffect } from 'react'; 
+import { FaMicrophone, FaPaperclip } from 'react-icons/fa';  
 import './chatbot.css';
 
 
@@ -68,27 +68,6 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
 
   return (
     <div className="chatbot-page">
-      {/* <div className="chat-display">
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.type}`}>
-            {msg.type === 'user' && (
-              <div className="user-message">
-                {msg.file ? (
-                  <a href={msg.content} download={msg.fileName}>Download File</a>
-                ) : (
-                  <p>{msg.content}</p>
-                )}
-              </div>
-            )}
-            {msg.type === 'bot' && (
-              <div className="bot-message">
-                <p>{msg.content}</p>
-              </div>
-            )}
-          </div>
-        ))}
-        <div ref={chatEndRef} />
-      </div> */}
       <div className="chat-display">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.type}`}>
