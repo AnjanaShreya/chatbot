@@ -227,7 +227,10 @@ const Navbar = () => {
       </nav>
       <div className="content-wrapper">
         <div className="content">
-          <Chatbot currentChatId={currentChatId} chatHistory={chatHistory} setChatHistory={setChatHistory} />
+          <Chatbot currentChatId={currentChatId} 
+          chatHistory={chatHistory} 
+          setChatHistory={setChatHistory} 
+          creativityLevel={rangeValue} />
         </div>
       </div>
     </div>

@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaMicrophone, FaPaperclip } from 'react-icons/fa';  
 import './chatbot.css';
 
-
-const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
+const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }) => { // Add creativityLevel prop
   const [userInput, setUserInput] = useState('');
   const [file, setFile] = useState(null);
   const [voiceMessage, setVoiceMessage] = useState('');
@@ -22,6 +21,16 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
     setVoiceMessage('Simulated voice message');
   };
 
+  const generateBotResponse = () => {
+    if (creativityLevel <= 3) {
+      return 'Here is a straightforward answer to your question.';
+    } else if (creativityLevel <= 7) {
+      return 'I have a few interesting ideas for you to consider...';
+    } else {
+      return "Let's explore some creative and unconventional possibilities!";
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (userInput.trim() || file || voiceMessage) {
@@ -35,7 +44,10 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
       if (voiceMessage) {
         newMessages.push({ type: 'user', content: voiceMessage });
       }
-      newMessages.push({ type: 'bot', content: 'Processing.....' });
+
+      // Generate bot response based on creativity level
+      const botResponse = generateBotResponse();
+      newMessages.push({ type: 'bot', content: botResponse });
 
       setMessages(newMessages);
       setUserInput('');
@@ -91,9 +103,9 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
               </div>
             )}
           </div>
-  ))}
-  <div ref={chatEndRef} />
-</div>
+        ))}
+        <div ref={chatEndRef} />
+      </div>
 
       <form className="chat-input" onSubmit={handleSubmit}>
         <div className="input-wrapper">
