@@ -30,6 +30,7 @@
     flex-direction: column;
     height: 90vh;
     box-shadow: #060b26 10px 10px 10px;
+    border-radius: 10px;
   }
 
   .message {
