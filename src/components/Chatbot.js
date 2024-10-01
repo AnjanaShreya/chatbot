@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'; 
-import { FaMicrophone, FaPaperclip } from 'react-icons/fa';  
+import React, { useState, useRef, useEffect } from 'react';
+import { FaMicrophone, FaPaperclip } from 'react-icons/fa';
 import './chatbot.css';
 
-const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }) => { // Add creativityLevel prop
+const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }) => {
   const [userInput, setUserInput] = useState('');
   const [file, setFile] = useState(null);
   const [voiceMessage, setVoiceMessage] = useState('');
@@ -31,10 +31,33 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }
     }
   };
 
+  const saveChatToServer = async (userMessage, botResponse) => {
+    try {
+      const response = await fetch('http://localhost:5001/api/save-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chatId: currentChatId,
+          userMessage,
+          botResponse,
+        }),
+      });
+
+      const data = await response.json();
+      console.log('Chat saved:', data);
+    } catch (error) {
+      console.error('Error saving chat:', error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (userInput.trim() || file || voiceMessage) {
       const newMessages = [...messages];
+      let userMsg = userInput || voiceMessage || file?.name;
+
       if (userInput.trim()) {
         newMessages.push({ type: 'user', content: userInput });
       }
@@ -54,12 +77,15 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }
       setFile(null);
       setVoiceMessage('');
 
+      // Save the chat (user message and bot response) to the server
+      saveChatToServer(userMsg, botResponse);
+
       // Update chat history with new messages for the current chat
-      setChatHistory(prevChatHistory => 
-        prevChatHistory.map(chat => 
-          chat.id === currentChatId 
-          ? { ...chat, messages: newMessages }
-          : chat
+      setChatHistory((prevChatHistory) =>
+        prevChatHistory.map((chat) =>
+          chat.id === currentChatId
+            ? { ...chat, messages: newMessages }
+            : chat
         )
       );
     }
@@ -67,7 +93,7 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }
 
   useEffect(() => {
     if (currentChatId) {
-      const chat = chatHistory.find(chat => chat.id === currentChatId);
+      const chat = chatHistory.find((chat) => chat.id === currentChatId);
       if (chat) {
         setMessages(chat.messages || []);
       }
@@ -97,11 +123,6 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }
                 <p>{msg.content}</p>
               </div>
             )}
-            {msg.type === 'system' && (
-              <div className="system-message">
-                <p>{msg.content}</p>
-              </div>
-            )}
           </div>
         ))}
         <div ref={chatEndRef} />
@@ -110,11 +131,7 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }
       <form className="chat-input" onSubmit={handleSubmit}>
         <div className="input-wrapper">
           <FaPaperclip className="icon" />
-          <input
-            type="file"
-            onChange={handleFileChange}
-            className="file-input"
-          />
+          <input type="file" onChange={handleFileChange} className="file-input" />
           <FaMicrophone className="icon" onClick={handleVoiceInput} />
           <input
             type="text"
