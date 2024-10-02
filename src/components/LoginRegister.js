@@ -54,6 +54,8 @@ const LoginRegister = () => {
     try {
       const response = await axios.post('http://localhost:5000/login', loginData);
       if (response.data.success) {
+        // Store token or session data in localStorage for authentication
+        localStorage.setItem('userToken', response.data.token); // Store the token in localStorage
         navigate('/dashboard'); // Redirect to dashboard after successful login
       } else {
         setError(response.data.message);

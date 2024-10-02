@@ -5,7 +5,7 @@ const Dashboard = () => {
 
   return (
     <div style={{color: 'white'}}>
-        <Navbar />
+      <Navbar />
     </div>
   )
 }
