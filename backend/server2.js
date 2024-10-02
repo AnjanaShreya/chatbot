@@ -59,7 +59,27 @@ app.get('/api/chat-history/:chatId', (req, res) => {
       res.status(200).json(results);
     });
   });
+
   
+  // DELETE chat by chat_id
+app.delete('/api/chats/:chatId', (req, res) => {
+    const { chatId } = req.params;
+    
+    const deleteQuery = 'DELETE FROM chat_history WHERE chat_id = ?';
+  
+    db.query(deleteQuery, [chatId], (err, result) => {
+      if (err) {
+        console.error('Error deleting chat:', err);
+        return res.status(500).json({ message: 'Database error' });
+      }
+  
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: 'Chat not found' });
+      }
+  
+      res.status(200).json({ message: 'Chat deleted successfully' });
+    });
+  });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

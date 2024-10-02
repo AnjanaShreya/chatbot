@@ -83,13 +83,27 @@ const Navbar = () => {
     setCurrentChatId(id);
   };
 
-  // Handle deleting a chat
-  const handleDeleteChat = (id) => {
-    const updatedChatHistory = chatHistory.filter(chat => chat.id !== id);
-    setChatHistory(updatedChatHistory);
-    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory)); // Update localStorage after deletion
-    if (currentChatId === id) {
-      setCurrentChatId(null);
+  // Handle deleting a chat from the front-end and the database
+  const handleDeleteChat = async (id) => {
+    try {
+      // Make an API call to delete the chat from the database
+      const response = await fetch(`http://localhost:5001/api/chats/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // If deletion was successful, update the state
+        const updatedChatHistory = chatHistory.filter(chat => chat.id !== id);
+        setChatHistory(updatedChatHistory);
+        localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory)); // Update localStorage after deletion
+        if (currentChatId === id) {
+          setCurrentChatId(null);
+        }
+      } else {
+        console.error('Failed to delete chat from database');
+      }
+    } catch (error) {
+      console.error('Error deleting chat:', error);
     }
   };
 
