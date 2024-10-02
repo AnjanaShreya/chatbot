@@ -45,20 +45,21 @@ app.post('/api/save-chat', (req, res) => {
     });
   });
 
-// API route to fetch chat history for a specific chat ID
+// Endpoint to fetch chat history for a specific chat ID
 app.get('/api/chat-history/:chatId', (req, res) => {
-  const { chatId } = req.params;
-
-  const query = 'SELECT * FROM chat_history WHERE chat_id = ? ORDER BY created_at';
-  db.query(query, [chatId], (err, results) => {
-    if (err) {
-      console.error('Error fetching from MySQL:', err);
-      return res.status(500).json({ message: 'Database error' });
-    }
-
-    res.status(200).json(results);
+    const { chatId } = req.params;
+  
+    const query = 'SELECT * FROM chat_history WHERE chat_id = ? ORDER BY created_at';
+    db.query(query, [chatId], (err, results) => {
+      if (err) {
+        console.error('Error fetching from MySQL:', err);
+        return res.status(500).json({ message: 'Database error' });
+      }
+  
+      res.status(200).json(results);
+    });
   });
-});
+  
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

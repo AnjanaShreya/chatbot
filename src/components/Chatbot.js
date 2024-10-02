@@ -9,6 +9,29 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }
   const [messages, setMessages] = useState([]);
   const chatEndRef = useRef(null);
 
+  const fetchChatHistory = async (chatId) => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/chat-history/${chatId}`);
+      const data = await response.json();
+  
+      // Map the response to format user and bot messages properly
+      const formattedMessages = data.flatMap((msg) => {
+        const userMessages = [];
+        if (msg.user_message) {
+          userMessages.push({ type: 'user', content: msg.user_message });
+        }
+        if (msg.bot_response) {
+          userMessages.push({ type: 'bot', content: msg.bot_response });
+        }
+        return userMessages;
+      });
+  
+      setMessages(formattedMessages);
+    } catch (error) {
+      console.error('Error fetching chat history:', error);
+    }
+  };  
+
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
@@ -91,14 +114,12 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory, creativityLevel }
     }
   };
 
+  // Fetch the chat history when currentChatId changes
   useEffect(() => {
     if (currentChatId) {
-      const chat = chatHistory.find((chat) => chat.id === currentChatId);
-      if (chat) {
-        setMessages(chat.messages || []);
-      }
+      fetchChatHistory(currentChatId);
     }
-  }, [currentChatId, chatHistory]);
+  }, [currentChatId]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });

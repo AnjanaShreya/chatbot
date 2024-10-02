@@ -15,23 +15,27 @@ const Navbar = () => {
   const [newChatName, setNewChatName] = useState('');
   const navigate = useNavigate(); 
 
+  // Toggle menu open/close state
   const toggleMenu = () => {
     setIsMenuClosed(!isMenuClosed);
   };
 
+  // Handle changes in creativity level slider
   const handleRangeChange = (e) => {
     setRangeValue(e.target.value);
   };
 
+  // Toggle the model dropdown open/close
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Handle switching the model
   const handleModelClick = (model) => {
     setSelectedModel(model);
     setIsDropdownOpen(false); 
 
-    // Add a system message to indicate the selected model
+    // Add a system message indicating the selected model
     if (currentChatId) {
       const updatedChatHistory = chatHistory.map(chat => {
         if (chat.id === currentChatId) {
@@ -47,15 +51,18 @@ const Navbar = () => {
       });
 
       setChatHistory(updatedChatHistory);
+      localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory)); // Persist updated chat history
     }
   };
 
+  // Handle user logout
   const handleLogout = () => {
     localStorage.removeItem('userToken'); 
     sessionStorage.removeItem('userSession'); 
     navigate('/'); 
   };
 
+  // Handle creating a new chat
   const handleNewChat = () => {
     const newChatId = chatHistory.length ? chatHistory[chatHistory.length - 1].id + 1 : 1;
     const defaultModel = 'Model 4.0';
@@ -64,46 +71,58 @@ const Navbar = () => {
       name: `Chat ${newChatId}`,
       messages: [{ type: 'system', content: `You are now using ${defaultModel}` }] 
     };
-    setChatHistory([...chatHistory, newChat]);
+    const updatedChatHistory = [...chatHistory, newChat];
+    setChatHistory(updatedChatHistory);
+    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory)); // Persist new chat to localStorage
     setCurrentChatId(newChatId); 
     setSelectedModel(defaultModel); 
   };
   
-
+  // Handle selecting a chat
   const handleChatSelect = (id) => {
     setCurrentChatId(id);
   };
 
+  // Handle deleting a chat
   const handleDeleteChat = (id) => {
-    setChatHistory(chatHistory.filter(chat => chat.id !== id));
+    const updatedChatHistory = chatHistory.filter(chat => chat.id !== id);
+    setChatHistory(updatedChatHistory);
+    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory)); // Update localStorage after deletion
     if (currentChatId === id) {
       setCurrentChatId(null);
     }
   };
 
+  // Handle initiating chat rename
   const handleRenameClick = (id) => {
     setEditingChatId(id);
     const chat = chatHistory.find(chat => chat.id === id);
     setNewChatName(chat ? chat.name : '');
   };
 
+  // Handle confirming chat rename
   const handleRenameChat = () => {
-    setChatHistory(chatHistory.map(chat => 
+    const updatedChatHistory = chatHistory.map(chat => 
       chat.id === editingChatId ? { ...chat, name: newChatName } : chat
-    ));
+    );
+    setChatHistory(updatedChatHistory);
+    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory)); // Persist renamed chat
     setEditingChatId(null);
   };
   
+  // Load chat history from localStorage when the component mounts
   useEffect(() => {
-    if (chatHistory.length === 0) {
-      // Automatically add "Chat 1" if no chats exist
+    const savedChatHistory = JSON.parse(localStorage.getItem('chatHistory'));
+    if (savedChatHistory) {
+      setChatHistory(savedChatHistory);
+      setCurrentChatId(savedChatHistory[0]?.id || null);
+    } else {
       const initialChat = { id: 1, name: 'Chat 1', messages: [{ type: 'system', content: 'You are now using Model 4.0' }] };
       setChatHistory([initialChat]);
-      setCurrentChatId(1); // Set "Chat 1" as the current chat
-    } else if (!currentChatId) {
-      setCurrentChatId(chatHistory[0].id); 
+      setCurrentChatId(1);
+      localStorage.setItem('chatHistory', JSON.stringify([initialChat])); // Save initial chat to localStorage
     }
-  }, [chatHistory, currentChatId]);
+  }, []);
 
   return (
     <div className={`body ${isMenuClosed ? 'closed-menu' : ''}`}>
