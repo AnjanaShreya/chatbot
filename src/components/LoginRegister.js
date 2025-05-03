@@ -48,22 +48,26 @@ const LoginRegister = () => {
     }
   };
 
-  // Handle login
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:5000/login', loginData);
-      if (response.data.success) {
-        // Store token or session data in localStorage for authentication
-        localStorage.setItem('userToken', response.data.token); // Store the token in localStorage
-        navigate('/dashboard'); // Redirect to dashboard after successful login
-      } else {
-        setError(response.data.message);
-      }
-    } catch (err) {
-      setError('An error occurred during login.');
+// In your handleLoginSubmit function:
+const handleLoginSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.post(
+      'http://localhost:5000/api/auth/login',  // Note the /api/auth prefix
+      loginData
+    );
+    if (response.data.success) {
+      // Store token or session data in localStorage for authentication
+      localStorage.setItem('userToken', response.data.token); // Store the token in localStorage
+      navigate('/dashboard'); // Redirect to dashboard after successful login
+    } else {
+      setError(response.data.message);
     }
-  };
+  } catch (err) {
+    setError('Invalid credentials or server error');
+    console.error('Login error:', err);
+  }
+};
 
   return (
     <div className="logincss">

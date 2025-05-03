@@ -328,7 +328,7 @@ nav li#user-info > span:after{
   list-style-type: none;
   padding: 0;
   margin: 0;
-  height: 235px;
+  height: 380px;
   overflow-y: scroll;
   width: 100%;
 }
