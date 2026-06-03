@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ChatController = require('../controllers/ChatController');
+const ChatController = require('../controllers/chatController');
 const authMiddleware = require('../middleware/auth');
 
 router.get('/share/:chatId', ChatController.getSharedChatHistory);
