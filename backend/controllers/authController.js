@@ -121,7 +121,7 @@ class AuthController {
       const resetToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '15m' });
 
       // Create reset link
-      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+      const frontendUrl = process.env.FRONTEND_URL;
       const resetLink = `${frontendUrl}/reset-password?token=${resetToken}`;
 
       // Send email
