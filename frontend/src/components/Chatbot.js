@@ -230,7 +230,7 @@ const Chatbot = ({ currentChatId, chatHistory, setChatHistory }) => {
 
   // Find active chat name
   const activeChat = chatHistory.find(chat => chat.id === currentChatId);
-  const chatName = activeChat ? activeChat.name : 'Project Analysis';
+  const chatName = activeChat ? activeChat.name : 'Chat 1';
 
   // Compute initials for the user avatar
   const username = localStorage.getItem('username') || 'JD';

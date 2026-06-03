@@ -121,16 +121,20 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const username = localStorage.getItem('username') || 'default';
+  const chatHistoryKey = `chatHistory_${username}`;
+
   const handleNewChat = () => {
-    const newChatId = chatHistory.length ? Math.max(...chatHistory.map(c => c.id)) + 1 : 1;
+    // Generate a unique 32-bit signed random integer (up to 1 billion) to prevent database key collisions
+    const newChatId = Math.floor(Math.random() * 1000000000) + 1;
     const newChat = {
       id: newChatId,
-      name: `Chat ${newChatId}`,
+      name: `Chat ${chatHistory.length + 1}`,
       messages: []
     };
     const updatedChatHistory = [...chatHistory, newChat];
     setChatHistory(updatedChatHistory);
-    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
+    localStorage.setItem(chatHistoryKey, JSON.stringify(updatedChatHistory));
     setCurrentChatId(newChatId);
     setActiveTab('chat');
   };
@@ -154,7 +158,7 @@ const Navbar = () => {
       if (response.ok) {
         const updatedChatHistory = chatHistory.filter(chat => chat.id !== id);
         setChatHistory(updatedChatHistory);
-        localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
+        localStorage.setItem(chatHistoryKey, JSON.stringify(updatedChatHistory));
         if (currentChatId === id) {
           setCurrentChatId(updatedChatHistory[0]?.id || null);
         }
@@ -183,30 +187,28 @@ const Navbar = () => {
       chat.id === editingChatId ? { ...chat, name: newChatName } : chat
     );
     setChatHistory(updatedChatHistory);
-    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
+    localStorage.setItem(chatHistoryKey, JSON.stringify(updatedChatHistory));
     setEditingChatId(null);
   };
 
   useEffect(() => {
-    const savedChatHistory = JSON.parse(localStorage.getItem('chatHistory'));
+    const savedChatHistory = JSON.parse(localStorage.getItem(chatHistoryKey));
     if (savedChatHistory && savedChatHistory.length > 0) {
       setChatHistory(savedChatHistory);
       setCurrentChatId(savedChatHistory[0]?.id || null);
     } else {
+      const generateUniqueId = () => Math.floor(Math.random() * 1000000000) + 1;
       const initialChats = [
-        { id: 1, name: 'Project Analysis', messages: [] },
-        { id: 2, name: 'Market Trends 2024', messages: [] },
-        { id: 3, name: 'Refactor Auth Logic', messages: [] },
-        { id: 4, name: 'Data Integrity Audit', messages: [] }
+        { id: generateUniqueId(), name: 'Chat 1', messages: [] }
       ];
       setChatHistory(initialChats);
-      setCurrentChatId(1);
-      localStorage.setItem('chatHistory', JSON.stringify(initialChats));
+      setCurrentChatId(initialChats[0].id);
+      localStorage.setItem(chatHistoryKey, JSON.stringify(initialChats));
     }
-  }, []);
+  }, [chatHistoryKey]);
 
   // Compute initials for the top avatar
-  const username = localStorage.getItem('username') || 'JD';
+  const userDisplayName = localStorage.getItem('username') || 'JD';
   const getInitials = (name) => {
     const parts = name.trim().split(/\s+/);
     if (parts.length >= 2) {
@@ -214,7 +216,7 @@ const Navbar = () => {
     }
     return name.slice(0, 2).toUpperCase();
   };
-  const userInitials = getInitials(username);
+  const userInitials = getInitials(userDisplayName);
 
   return (
     <div className="dashboard-container">
@@ -253,7 +255,7 @@ const Navbar = () => {
           <button className="help-icon-btn" aria-label="Help" onClick={() => setShowHelpModal(true)}>
             <FaRegQuestionCircle size={20} />
           </button>
-          <div className="user-avatar" title={username}>
+          <div className="user-avatar" title={userDisplayName}>
             {userInitials}
           </div>
         </div>

@@ -21,6 +21,7 @@ model User {
 model ChatHistory {
   id            Int      @id @default(autoincrement())
   chatId        Int      @map("chat_id")
+  userId        Int?     @map("user_id")
   userMessage   String?  @map("user_message")
   botResponse   String?  @map("bot_response")
   createdAt     DateTime @default(now()) @db.Timestamptz @map("created_at")
