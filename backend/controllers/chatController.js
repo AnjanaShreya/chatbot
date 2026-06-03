@@ -8,7 +8,18 @@ class ChatController {
       res.status(200).json(chatHistory);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ message: 'Server error', error: error.message, stack: error.stack });
+    }
+  }
+
+  static async getSharedChatHistory(req, res) {
+    try {
+      const { chatId } = req.params;
+      const chatHistory = await Chat.findByChatId(chatId);
+      res.status(200).json(chatHistory);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error', error: error.message, stack: error.stack });
     }
   }
 
@@ -24,23 +35,18 @@ class ChatController {
       res.status(200).json({ message: 'Chat saved successfully', chatId });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ message: 'Server error', error: error.message, stack: error.stack });
     }
   }
 
   static async deleteChat(req, res) {
     try {
       const { chatId } = req.params;
-      const affectedRows = await Chat.deleteChat(chatId);
-      
-      if (affectedRows === 0) {
-        return res.status(404).json({ message: 'Chat not found' });
-      }
-
+      await Chat.deleteChat(chatId);
       res.status(200).json({ message: 'Chat deleted successfully' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ message: 'Server error', error: error.message, stack: error.stack });
     }
   }
 }

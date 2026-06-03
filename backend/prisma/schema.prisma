@@ -1,0 +1,29 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  username    String   @unique @db.VarChar(255)
+  email       String   @unique @db.VarChar(255)
+  password    String   @db.VarChar(255)
+  createdAt   DateTime @default(now()) @db.Timestamptz @map("created_at")
+
+  @@map("users")
+}
+
+model ChatHistory {
+  id            Int      @id @default(autoincrement())
+  chatId        Int      @map("chat_id")
+  userMessage   String?  @map("user_message")
+  botResponse   String?  @map("bot_response")
+  createdAt     DateTime @default(now()) @db.Timestamptz @map("created_at")
+
+  @@map("chat_history")
+}

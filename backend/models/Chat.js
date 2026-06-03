@@ -1,28 +1,28 @@
-const pool = require('../config/db'); 
+const prisma = require('../config/db'); 
 
 class Chat {
     static async findByChatId(chatId) {
-      const [rows] = await pool.query(
-        'SELECT * FROM chat_history WHERE chat_id = ? ORDER BY created_at',
-        [chatId]
-      );
-      return rows;
+      return await prisma.chatHistory.findMany({
+        where: { chatId: parseInt(chatId, 10) },
+        orderBy: { createdAt: 'asc' }
+      });
     }
   
     static async saveMessage({ chatId, userMessage, botResponse }) {
-      const [result] = await pool.query(
-        'INSERT INTO chat_history (chat_id, user_message, bot_response) VALUES (?, ?, ?)',
-        [chatId, userMessage, botResponse]
-      );
-      return result;
+      return await prisma.chatHistory.create({
+        data: {
+          chatId: parseInt(chatId, 10),
+          userMessage: userMessage,
+          botResponse: botResponse
+        }
+      });
     }
   
     static async deleteChat(chatId) {
-      const [result] = await pool.query(
-        'DELETE FROM chat_history WHERE chat_id = ?',
-        [chatId]
-      );
-      return result.affectedRows;
+      const result = await prisma.chatHistory.deleteMany({
+        where: { chatId: parseInt(chatId, 10) }
+      });
+      return result.count;
     }
   }
   
