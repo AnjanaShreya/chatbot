@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "postinstall": "prisma generate"
+  },
   "dependencies": {
     "@google/genai": "^2.7.0",
     "@google/generative-ai": "^0.24.1",
